@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <link rel="stylesheet" href="../static/css/style.css">
+  <script charset="utf-8" src='../libs/js/vue.js'></script>
+
+</head>
+<body>
+  <div id='app-1' class='demo' v-bind:title="divTitle">
+    <button v-bind:disabled='isButtonDisabled'>{{ btn }}</button>
+  </div>
+  <script charset="utf-8">
+    var app1 = new Vue({
+      el:'#app-1',
+      data:{
+        btn:'button',
+        divTitle:"这是一个button",
+        isButtonDisabled:"1"
+      }
+    })
+  </script>
+</body>
+</html>
