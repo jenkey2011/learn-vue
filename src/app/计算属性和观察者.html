@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <link rel="stylesheet" href="../static/css/style.css">
+  <script charset="utf-8" src='../libs/js/vue.js'></script>
+
+</head>
+<body>
+  <h2>计算属性</h2>
+  <div id="demo1">
+    <p> Original message：{{ message }} </p>
+    <p> Original message：{{ reversedMessage }} </p>
+    <p> Time now ：{{ now }} </p>
+
+  </div>
+  <script charset="utf-8">
+    var app1 = new Vue({
+      el:'#demo1',
+      data:{
+        message:'Hello Vue.js!'
+      },
+      computed:{
+        reversedMessage:function () {
+          return this.message.split('').reverse('').join('');
+        },
+        now:function  (argument) {
+          return Date.now();
+        }
+      }
+    })
+  </script>
+</body>
+</html>
