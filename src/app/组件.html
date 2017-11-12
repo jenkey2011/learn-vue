@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <link rel="stylesheet" href="../static/css/style.css">
+  <script charset="utf-8" src='../libs/js/vue.js'></script>
+</head>
+<body>
+	<h2>使用组件</h2>
+	<hr>
+	<h4>全局定义</h4>
+	<div id="app-1">
+		<my-component></my-component>
+	</div>
+	<script charset="utf-8">
+		Vue.component('my-component',{
+			template:'<div> A custom component! </div>'
+		})
+		var app1 = new Vue({
+			el:'#app-1'
+		})
+	</script>
+	<hr>
+	<h4>局部注册</h4>
+	<div id="app-2">
+		<my-component2></my-component2>
+	</div>
+	<script charset="utf-8">
+		var child ={
+			template:'<div> A custom component too! </div>'
+		};
+		var app2 = new Vue({
+			el:'#app-2',
+			components:{
+				'my-component2':child
+			}
+		})
+	</script>
+	<hr>
+	<h4>data必须是函数</h4>
+	<div id="app-3">
+		<simple-counter></simple-counter>
+		<simple-counter></simple-counter>
+		<simple-counter></simple-counter>
+		<simple-counter></simple-counter>
+
+	</div>
+	<script charset="utf-8">
+		var data = {
+			counter:0
+		}
+		Vue.component('simple-counter',{
+			template:'<button v-on:click="counter += 1">{{ counter }}</button>',
+			data: function(){
+				return data;
+			}
+		})
+		var app3 = new Vue({
+		
+			el: "#app-3",
+
+		
+		})
+	</script>
+	<hr>
+	
+	<div id="app-4">
+		<simple-counter></simple-counter>
+		<simple-counter></simple-counter>
+		<simple-counter></simple-counter>
+		<simple-counter></simple-counter>
+
+	</div>
+	<script charset="utf-8">
+		var data = {
+			counter:0
+		}
+		Vue.component('simple-counter',{
+			template:'<button v-on:click="counter += 1">{{ counter }}</button>',
+			data: function(){
+				return {
+					counter:0
+				};
+			}
+		})
+		var app4 = new Vue({
+		
+			el: "#app-4",
+
+		
+		})
+	</script>
+	
+	<h4>Prop</h4>
+	<div id="app-5">
+		<child message='hellp props' msg-detail='hahaha'></child>
+	</div>
+	<script charset="utf-8">
+		Vue.component('child', {
+			// 声明props
+			props:['message','msgDetail'],
+			template:'<span>{{message}} {{msgDetail}}</span>'
+		})
+		var app5 = new Vue({
+		
+			el: "#app-5"
+		
+		})
+	</script>
+	<hr>
+	<h4>动态Prop</h4>
+	<div id="app-6">
+		<input type="text" v-model='msg'>
+		<child :message='msg' ></child>
+	</div>
+	<script charset="utf-8">
+		Vue.component('child', {
+			// 声明props
+			props:['message'],
+			template:'<span>Parent massage {{message}}</span>'
+		})
+		var app6 = new Vue({
+		
+			el: "#app-6",
+			data:{
+				msg:''
+			}
+		
+		})
+	</script>
+	<hr>
+	<h4>props 绑定一个对象多有的属性</h4>
+	<div id="app-7">
+		<input type="text" v-model='msg'>
+		<child v-bind="todo" ></child>
+		<button @click='update'>update</button>
+	</div>
+	<script charset="utf-8">
+		// var todo = {
+		// 	// text: 'Learn Vue',
+  // 	// 	isComplete: false,
+  // 		message:'msg'
+		// }
+		Vue.component('child', {
+			// 声明props
+			props:['message','text','isComplete'],
+			template:'<span>Parent massage {{message}} + {{text}} + {{isComplete}} </span>'
+		})
+		var app7 = new Vue({
+		
+			el: "#app-7",
+			data:{
+				msg:'',
+				todo:{
+					text: 'Learn Vue',
+					isComplete: false,
+					message:this.msg
+				}
+			},
+			methods:{
+				update:function(){
+					this.todo.isComplete = 'true'
+				}
+			}
+		
+		})
+	</script>
+</body>
+</html>

@@ -4,7 +4,9 @@
   "description": "daily work ",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "add":" git add . ",
+    "commit":"git commit -m 'today' "
   },
   "keywords": [
     "gulp",
