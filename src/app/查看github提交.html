@@ -7,6 +7,12 @@
   <script charset="utf-8" src='../libs/js/vue.js'></script>
 </head>
 <body>
+    <style>
+    
+    li{
+        margin-bottom: 10px;
+    }
+    </style>
   <div id="app">
 		<h2>Latest Vue.js Commits</h2>
 		<template v-for='branch in branchs'>
@@ -25,7 +31,9 @@
 				v-for='commit in commits'
 			>
 				<span > {{ commit.sha.slice(0,6) }}  </span> - 
-				{{ commit.commit.message }}
+                {{ commit.commit.message }} <br>
+                by <b> {{ commit.commit.author.name }} </b> at
+                <b>{{ commit.commit.author.date | filterDate }}</b>
 			</li>
 		</ul>
   </div>
@@ -43,9 +51,13 @@
   		},
 
   		created: function(){
-  				this.getCommits()
+            this.getCommits()
   		},
-
+        
+        watch: {
+            currentBranch: 'getCommits'
+        },
+          
   		methods:{
   			getCommits:function(){
   				var vm = this;
@@ -57,7 +69,13 @@
                 vm.answer = 'Error! Could not reach the API.' + error;
                })
   			}
-  		}
+          },
+          
+          filters:{
+              filterDate: function(value){
+                  return value.replace(/T|Z/g,' ')
+              }
+          }
   		
   	})
   </script>
