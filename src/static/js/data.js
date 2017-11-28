@@ -29,6 +29,7 @@ const list = {
     "Markdown编辑器",
     "查看github提交",
     "网络组件",
-    "树形视图"
+    "树形视图",
+    "SVG图表"
   ]
 };
