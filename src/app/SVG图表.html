@@ -42,132 +42,41 @@
     </style>
 </head>
 <body class="noselect">
-    <script type="text/x-template" id="polygraph-template">
-        <g>
-            <polygon :points="points"></polygon>
-            <circle cx="100" cy="100" r="80"> </circle>
-            <axis-label v-for="(stat,index) in stats" :stat="stat" :index="index" :total="stats.length">
-            </axis-label>
-        </g>
+    <!-- 多边形 -->
+    <script type="text/x-template" id="polygon-template">
+        <polygon :points="points" ></polygon>
+        <circle cx="100" cy="100" r="80"></circle>
+        <label-point v-for="(stat,index) in stats" :stat="stat" :index="stat.index" :total="stats.length">
+        </label-point>
     </script>
-    <script type="text/x-template" id="axis-label-template">
+
+    <!-- 标签 -->
+    <script type="text/x-template" id="label-point">
         <text :x="point.x" :y="point.y">{{stat.label}}</text>
     </script>
 
     <div id="demo">
         <svg width="200" height="200" >
-           <polygraph :stats="stats" ></polygraph>
+            <polygon-point :stats="stats"></polygon-point>
         </svg>
+        <!-- 控制 -->
         <div v-for="stat in stats">
-            <label >{{stat.label}}</label>
-            <input type="range" v-model="stat.value" min="0" max="100">
+            <label for="">{{stat.label}}</label>
+            <input type="range" min="0" max="100" v-model="stat.value">
             <span>{{stat.value}}</span>
-            <button @click="remove(stat)" class="remove">X</button>
+            <button @click="remove(state)">X</button>
         </div>
-        <form id="add">
-            <input type="text" name="newLabel" v-model="newLabel">
-            <button @click="add">Add a Stat</button>
-        </form>
-        <pre id="raw">{{stats}}</pre>
     </div>
     
     <script>
-        var stats = [{
-                label: 'A',
-                value: 100
-            },
-            {
-                label: 'B',
-                value: 100
-            },
-            {
-                label: 'C',
-                value: 100
-            },
-            {
-                label: 'D',
-                value: 100
-            },
-            {
-                label: 'E',
-                value: 100
-            },
-            {
-                label: 'F',
-                value: 100
-            }
-        ]
-
-        Vue.component('polygraph', {
+        Vue.component("polygon-point", {
             props:['stats'],
-            template:'#polygraph-template',
+            template:'#polygon-template',
             computed:{
-                points: function(){
-                    var total = this.stats.length;
-                    return this.stats.map(function(stat,i){
-                        var point = valueToPoint(stat.value,i,total)
-                        return point.x + ','  + point.y
-                    }).join(' ')
-                }
-            },
-            components: {
-                'axis-label': {
-                    props: {
-                        stat: Object,
-                        index: Number,
-                        total: Number
-                    },
-                    template: '#axis-label-template',
-                    computed: {
-                        point: function (){
-                            // console.log(this.stat.value+10)
-                            return valueToPoint((this.stat.value)*1 + 10, this.index , this.total)
-                        }
-                    }
-                }
-            }
-        })
-
-        function valueToPoint(value,index,total){
-
-            var y = -value * 0.8;
-            var angle = Math.PI * 2 / total * index;
-            var cos = Math.cos(angle);
-            var sin = Math.sin(angle);
-            var tx = y * sin + 100 ;
-            var ty = y * cos + 100;
-            return {
-                x: tx,
-                y: ty
-            }
-        }
-
-        new Vue({
-            el:'#demo',
-            data:{
-                newLabel: '',
-                stats: stats
-            },
-            methods: {
-                add: function(e){
-                    e.preventDefault();
-                    if(!this.newLabel) return ;
-                    this.stats.push({
-                        label: this.newLabel,
-                        value: 100
-                    })
-                    this.newLabel = '' ;
-                },
-                remove: function(stat){
-                    if(this.stats.length>3){
-                        this.stats.splice(this.stats.indexOf(stat),1)
-                    }else{
-                        alert('Can\'t delete more!')
-                    }
-                }
-
+                
             }
         })
     </script>
-</body>
+    
+</body> 
 </html>
