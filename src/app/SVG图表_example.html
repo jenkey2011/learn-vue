@@ -144,20 +144,7 @@
             }
         })
 
-        // math helper...
-        function valueToPoint(value, index, total) {
-            // var x = 0
-            var y = -value * 0.8
-            var angle = Math.PI * 2 / total * index
-            var cos = Math.cos(angle)
-            var sin = Math.sin(angle)
-            var tx =  y * sin + 100
-            var ty =  y * cos + 100
-            return {
-                x: tx,
-                y: ty
-            }
-        }
+
 
         // bootstrap the demo
         new Vue({
@@ -185,6 +172,22 @@
                 }
             }
         })
+
+
+        // math helper...
+        function valueToPoint(value, index, total) {
+            // var x = 0
+            var y = -value * 0.8
+            var angle = Math.PI * 2 / total * index
+            var cos = Math.cos(angle)
+            var sin = Math.sin(angle)
+            var tx =  y * sin + 100
+            var ty =  y * cos + 100
+            return {
+                x: tx,
+                y: ty
+            }
+        }
     </script>
 
 
