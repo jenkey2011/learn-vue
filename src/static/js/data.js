@@ -32,6 +32,11 @@ const list = {
     "树形视图",
     "SVG图表",
     "模式组件",
-    "伸缩header"
+    "伸缩header",
+    "内嵌组件",
+    "实时deepstreamHub",
+    "Firebase验证",
+    "todo",
+    "TodoList"
   ]
 };
