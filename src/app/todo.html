@@ -11,10 +11,21 @@
 
         li{
             transition: all 3s;
+            position: relative;
         }
         li span.active{
             text-decoration: line-through;
             color: #999;
+        }
+        li input{
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            display: none;
+        }
+        li.editing input{
+            display: block;
         }
     </style>
 </head>
@@ -26,11 +37,20 @@
         </div>
         <div class="main" v-show="todos.length">
             <ul >
-                <li v-for=" (todo,index) in filterTodos" :class="{ editing :  }">
+                <li v-for=" (todo,index) in filterTodos" 
+                :key="todo.id" 
+                :class="{ editing : todo == editTodo }">
                     <span 
                         @click=" todo.complete = !todo.complete;" 
+                        @dblclick="edit(todo)"
                         :class="{ active : todo.complete }">{{ todo.title }}</span>
                     <button @click.prevent="removeTodo(index)">X</button>
+                    <input type="text" v-model="todo.title" 
+                    @keyup.enter="doneEdit(todo)"
+                    @blur="doneEdit(todo)"
+                    @keyup.esc="cancalEdit(todo)"
+                    v-focus = "todo == editTodo"
+                    >
                 </li>
             </ul>
             <div class="info">
@@ -87,7 +107,8 @@
             data:{
                 newTodo:'',
                 todos: todoStorage.fetch(),
-                visibility: 'all'
+                visibility: 'all',
+                editTodo: null
             },
             watch:{
                 todos: {
@@ -132,7 +153,26 @@
                     this.todos = this.todos.filter(function(todo){
                         return !todo.complete;
                     })
+                },
+                edit:function(todo){
+                    this.oldTodo = todo.title;
+                    this.editTodo = todo;
+                },
+                doneEdit: function(todo){
+                    if(!this.editTodo){
+                        return;
+                    }
+                    this.editTodo = null;
+                    todo.title = todo.title.trim();
+                    if(!todo.title){
+                        this.todos.splice(this.todos.indexOf(todo),1)
+                    }
+                },
+                cancalEdit:function(todo){
+                    this.editTodo = null;
+                    todo.title = this.oldTodo;
                 }
+
             },
             computed:{
                 remaining:function(){
@@ -147,6 +187,13 @@
                 },
                 filterTodos:function(){
                     return filter[this.visibility](this.todos)
+                }
+            },
+            directives:{
+                'focus':function(el,binding){
+                    if(binding.value){
+                        el.focus();
+                    }
                 }
             }
         })
